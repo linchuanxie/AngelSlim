@@ -37,6 +37,7 @@ SUFFIX_TO_QUANT = [
     ".indexer.wk.weight",
 ]
 
+
 def process_worker(
     worker_id, safetensor_files, bf16_path, int8_path, weight_map, return_dict
 ):
@@ -61,9 +62,9 @@ def process_worker(
             keys = set(f.keys())
             for weight_name in keys:
                 weight = f.get_tensor(weight_name)
-                if any(weight_name.endswith(suffix) for suffix in SUFFIX_TO_QUANT): 
+                if any(weight_name.endswith(suffix) for suffix in SUFFIX_TO_QUANT):
                     quant_count += 1
-                    
+
                     int8_weight, scale_inv = weight_quant(weight)
                     new_state_dict[weight_name] = int8_weight
                     new_scale_name = f"{weight_name}_scale"
